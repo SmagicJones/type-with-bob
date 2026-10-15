@@ -5,6 +5,7 @@ export {
   fingerName,
   getKeyGuide,
 } from "./guide";
+export { LayoutPicker } from "./LayoutPicker";
 export { DEFAULT_LAYOUT_ID, getLayout, layouts } from "./layouts";
 export type {
   Finger,

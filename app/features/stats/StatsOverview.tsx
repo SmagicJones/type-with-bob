@@ -69,7 +69,9 @@ export function StatsOverview({
         ))}
       </dl>
       <p className="text-sm text-gray-700 dark:text-gray-300">
-        “Recent” means your last {Math.min(10, overview.sessions)} sessions.
+        {overview.sessions === 1
+          ? "“Recent” means your only session so far."
+          : `“Recent” means your last ${Math.min(10, overview.sessions)} sessions.`}
       </p>
 
       <Card aria-labelledby="trends-heading">

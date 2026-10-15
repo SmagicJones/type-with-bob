@@ -5,7 +5,7 @@ import { describe, expect, it, vi } from "vitest";
 import { getLayout } from "~/features/keyboard";
 
 import type { SessionResult } from "./sessionResult";
-import { TypingSession } from "./TypingSession";
+import { TypingSession, type TypingStatus } from "./TypingSession";
 
 const uk = getLayout("uk-qwerty");
 
@@ -83,6 +83,29 @@ describe("TypingSession", () => {
     expect(result.summary.errors).toBe(1);
     expect(result.summary.accuracy).toBeCloseTo(66.67, 1);
     expect(result.keyStats.j).toMatchObject({ attempts: 2, errors: 1 });
+  });
+
+  it("gives a companion live typing status", async () => {
+    const companion = vi.fn((status: TypingStatus) => (
+      <p>{status.onMistake ? "Oops" : `Fine at ${status.accuracy}%`}</p>
+    ));
+    render(
+      <TypingSession
+        target="fj"
+        layout={uk}
+        onComplete={() => {}}
+        companion={companion}
+      />,
+    );
+
+    expect(screen.getByText("Fine at 100%")).toBeInTheDocument();
+    await userEvent.keyboard("x");
+    expect(screen.getByText("Oops")).toBeInTheDocument();
+    expect(companion).toHaveBeenLastCalledWith({
+      onMistake: true,
+      accuracy: 0,
+      keystrokes: 1,
+    });
   });
 
   it("prompts the user to click back in after focus leaves", async () => {

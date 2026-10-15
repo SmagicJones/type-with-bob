@@ -60,6 +60,18 @@ describe("LessonResults", () => {
     );
   });
 
+  it("has Bob cheer a pass", async () => {
+    await renderResults(buildResult({ passed: true }));
+    expect(screen.getByText(/On to the next one/)).toBeInTheDocument();
+  });
+
+  it("has Bob encourage after a fail", async () => {
+    await renderResults(buildResult({ passed: false }));
+    expect(
+      screen.getByText(/Every try makes your fingers smarter/),
+    ).toBeInTheDocument();
+  });
+
   it("shows the headline numbers and the per-key breakdown", async () => {
     await renderResults(buildResult());
 

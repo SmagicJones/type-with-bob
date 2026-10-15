@@ -1,5 +1,6 @@
 import { charName } from "~/features/keyboard";
 import type { KeyStats } from "~/features/typing-engine";
+import { ScrollArea } from "~/components/ui/ScrollArea";
 import { formatPercent } from "~/lib/format";
 
 import { toKeyRows } from "./keyRows";
@@ -17,7 +18,7 @@ export function KeyBreakdown({ keyStats, className = "" }: KeyBreakdownProps) {
   }
 
   return (
-    <div className={`overflow-x-auto ${className}`}>
+    <ScrollArea label="Per-key results" className={className}>
       <table className="w-full text-left text-sm">
         <caption className="sr-only">
           Per-key results, trickiest keys first
@@ -62,6 +63,6 @@ export function KeyBreakdown({ keyStats, className = "" }: KeyBreakdownProps) {
           ))}
         </tbody>
       </table>
-    </div>
+    </ScrollArea>
   );
 }

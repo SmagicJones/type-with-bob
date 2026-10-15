@@ -2,10 +2,19 @@ import { Link } from "react-router";
 
 import type { KeyboardLayout } from "~/features/keyboard";
 import type { PracticeAttempt } from "~/features/progress";
-import { TypingSession, type SessionResult } from "~/features/typing-area";
+import { Bob, getBobMood } from "~/features/mascot";
+import {
+  TypingSession,
+  type SessionResult,
+  type TypingStatus,
+} from "~/features/typing-area";
 
 import { PracticeResults } from "./PracticeResults";
 import type { PracticeLength, TextSource } from "./sources";
+
+function bobCompanion(status: TypingStatus) {
+  return <Bob mood={getBobMood({ kind: "typing", ...status })} />;
+}
 
 type PracticeScreenProps = {
   source: TextSource;
@@ -51,6 +60,7 @@ export function PracticeScreen({
           target={text}
           layout={layout}
           onComplete={onComplete}
+          companion={bobCompanion}
         />
       )}
     </div>

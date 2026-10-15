@@ -62,6 +62,17 @@ describe("LessonScreen", () => {
     expect(onComplete).toHaveBeenCalledOnce();
   });
 
+  it("has Bob encourage the user after a mistake", async () => {
+    const { user } = await renderScreen("unlocked", "fj");
+    expect(screen.getByText("Ready when you are!")).toBeInTheDocument();
+
+    await user.keyboard("x");
+
+    expect(
+      screen.getByText("Keep going, you've got this!"),
+    ).toBeInTheDocument();
+  });
+
   it("starts again from the beginning", async () => {
     const { onComplete, user } = await renderScreen("unlocked", "fj");
 

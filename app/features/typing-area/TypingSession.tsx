@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 
 import {
   charName,
@@ -19,10 +19,19 @@ import { useNow } from "./useNow";
 import { useTypingInput } from "./useTypingInput";
 import { useTypingSession } from "./useTypingSession";
 
+export type TypingStatus = {
+  /** True while the current character is wrong. */
+  onMistake: boolean;
+  accuracy: number;
+  keystrokes: number;
+};
+
 type TypingSessionProps = {
   target: string;
   layout: KeyboardLayout;
   onComplete: (result: SessionResult) => void;
+  /** Optional content shown beside the live stats that reacts to typing, such as Bob. */
+  companion?: (status: TypingStatus) => ReactNode;
   className?: string;
 };
 
@@ -34,6 +43,7 @@ export function TypingSession({
   target,
   layout,
   onComplete,
+  companion,
   className = "",
 }: TypingSessionProps) {
   const { state, handleKey } = useTypingSession(target);
@@ -46,6 +56,7 @@ export function TypingSession({
   const now = useNow(running);
   // Between ticks, never measure to a point before the latest keystroke.
   const liveNow = Math.max(now, state.keystrokes.at(-1)?.at ?? now);
+  const liveSummary = getSummary(state, liveNow);
   const expected = getExpectedChar(state);
   const onMistake = state.chars[state.position] === "incorrect";
 
@@ -67,7 +78,14 @@ export function TypingSession({
 
   return (
     <div className={`flex flex-col gap-6 ${className}`}>
-      <LiveStats summary={getSummary(state, liveNow)} />
+      <div className="flex flex-wrap items-center justify-center gap-6">
+        <LiveStats summary={liveSummary} />
+        {companion?.({
+          onMistake,
+          accuracy: liveSummary.accuracy,
+          keystrokes: state.keystrokes.length,
+        })}
+      </div>
 
       <div
         ref={areaRef}

@@ -3,9 +3,18 @@ import { useState } from "react";
 import { Button } from "~/components/ui/Button";
 import { ButtonLink } from "~/components/ui/ButtonLink";
 import { charName, type KeyboardLayout } from "~/features/keyboard";
-import { TypingSession, type SessionResult } from "~/features/typing-area";
+import { Bob, getBobMood } from "~/features/mascot";
+import {
+  TypingSession,
+  type SessionResult,
+  type TypingStatus,
+} from "~/features/typing-area";
 
 import type { Lesson, LessonStatus } from "./types";
+
+function bobCompanion(status: TypingStatus) {
+  return <Bob mood={getBobMood({ kind: "typing", ...status })} />;
+}
 
 type LessonScreenProps = {
   lesson: Lesson;
@@ -67,6 +76,7 @@ export function LessonScreen({
         target={text}
         layout={layout}
         onComplete={onComplete}
+        companion={bobCompanion}
       />
 
       <div>

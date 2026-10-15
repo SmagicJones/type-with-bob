@@ -1,5 +1,6 @@
 export { curriculum, stages } from "./curriculum";
 export { createLessonAttempt } from "./attempt";
+export { ContinueLesson } from "./ContinueLesson";
 export { LessonMap } from "./LessonMap";
 export { LessonResults, type LessonResult } from "./LessonResults";
 export { LessonScreen } from "./LessonScreen";

@@ -68,6 +68,7 @@ describe("PracticeScreen", () => {
     await renderScreen(savedResult);
 
     expect(screen.getByRole("status")).toHaveTextContent("Practice complete");
+    expect(screen.getByText("Brilliant work!")).toBeInTheDocument();
     expect(
       screen.getByText("Words per minute").nextElementSibling,
     ).toHaveTextContent("42");

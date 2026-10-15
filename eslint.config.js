@@ -39,6 +39,11 @@ export default tseslint.config(
         { "ts-expect-error": "allow-with-description", "ts-ignore": true },
       ],
       "no-restricted-imports": ["error", { patterns: [FEATURE_INTERNALS] }],
+      // Allow focusable regions, the accessible pattern for scroll containers.
+      "jsx-a11y/no-noninteractive-tabindex": [
+        "error",
+        { tags: [], roles: ["tabpanel", "region"] },
+      ],
     },
   },
   {

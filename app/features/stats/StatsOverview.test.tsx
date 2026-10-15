@@ -52,6 +52,9 @@ describe("StatsOverview", () => {
     expect(valueOf("Recent accuracy")).toHaveTextContent("95%");
 
     expect(
+      screen.getByText("“Recent” means your last 2 sessions."),
+    ).toBeInTheDocument();
+    expect(
       screen.getByRole("figure", { name: "Words per minute" }),
     ).toBeInTheDocument();
     expect(
@@ -59,6 +62,14 @@ describe("StatsOverview", () => {
     ).toBeInTheDocument();
     expect(
       screen.getByRole("table", { name: "Your sessions, newest first" }),
+    ).toBeInTheDocument();
+  });
+
+  it("words the recent note for a single session", async () => {
+    await renderOverview([buildLessonAttempt()]);
+
+    expect(
+      await screen.findByText("“Recent” means your only session so far."),
     ).toBeInTheDocument();
   });
 });

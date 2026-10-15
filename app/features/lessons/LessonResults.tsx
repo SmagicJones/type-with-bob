@@ -1,5 +1,6 @@
 import { ButtonLink } from "~/components/ui/ButtonLink";
 import { Card } from "~/components/ui/Card";
+import { Bob, getBobMood } from "~/features/mascot";
 import { AttemptSummary, KeyBreakdown } from "~/features/stats";
 import type { KeyStats } from "~/features/typing-engine";
 
@@ -40,6 +41,18 @@ export function LessonResults({
             "Not quite there yet. Have another go!"
           )}
         </p>
+        <Bob
+          mood={getBobMood({
+            kind: "result",
+            passed: result.passed,
+            accuracy: result.accuracy,
+          })}
+          message={
+            result.passed
+              ? "Brilliant work! On to the next one?"
+              : "So close! Every try makes your fingers smarter."
+          }
+        />
         <p className="text-sm text-gray-700 dark:text-gray-300">
           To pass you need {pass.minAccuracy}% accuracy and {pass.minWpm} words
           per minute.

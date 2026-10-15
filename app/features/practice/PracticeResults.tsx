@@ -1,5 +1,6 @@
 import { ButtonLink } from "~/components/ui/ButtonLink";
 import { Card } from "~/components/ui/Card";
+import { Bob, getBobMood } from "~/features/mascot";
 import { AttemptSummary, KeyBreakdown } from "~/features/stats";
 import type { KeyStats } from "~/features/typing-engine";
 
@@ -27,6 +28,13 @@ export function PracticeResults({
       <div role="status">
         <h2 className="text-2xl font-bold">Practice complete. Nice work!</h2>
       </div>
+      <Bob
+        mood={getBobMood({
+          kind: "result",
+          passed: null,
+          accuracy: result.accuracy,
+        })}
+      />
       <AttemptSummary
         wpm={result.wpm}
         accuracy={result.accuracy}

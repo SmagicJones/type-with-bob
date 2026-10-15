@@ -19,4 +19,14 @@ describe("LiveStats", () => {
       "1:15",
     );
   });
+
+  it("holds back WPM until there is enough time to measure it", () => {
+    render(
+      <LiveStats
+        summary={{ wpm: 140, accuracy: 100, elapsedMs: 1999, errors: 0 }}
+      />,
+    );
+
+    expect(screen.getByText("WPM").nextElementSibling).toHaveTextContent("–");
+  });
 });

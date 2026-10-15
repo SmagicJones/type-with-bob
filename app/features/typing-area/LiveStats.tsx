@@ -1,6 +1,9 @@
 import type { Summary } from "~/features/typing-engine";
 import { formatDuration, formatPercent, formatWpm } from "~/lib/format";
 
+/** Below this, WPM swings wildly from a couple of keystrokes, so it is not shown yet. */
+export const MIN_WPM_ELAPSED_MS = 2000;
+
 type LiveStatsProps = {
   summary: Summary;
   className?: string;
@@ -9,7 +12,11 @@ type LiveStatsProps = {
 /** Running WPM, accuracy and time. Deliberately not a live region: it changes every keystroke. */
 export function LiveStats({ summary, className = "" }: LiveStatsProps) {
   const items = [
-    { label: "WPM", value: formatWpm(summary.wpm) },
+    {
+      label: "WPM",
+      value:
+        summary.elapsedMs < MIN_WPM_ELAPSED_MS ? "–" : formatWpm(summary.wpm),
+    },
     { label: "Accuracy", value: formatPercent(summary.accuracy) },
     { label: "Time", value: formatDuration(summary.elapsedMs) },
   ];

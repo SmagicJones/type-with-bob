@@ -1,4 +1,5 @@
 import type { Attempt } from "~/features/progress";
+import { ScrollArea } from "~/components/ui/ScrollArea";
 import { formatPercent, formatWpm } from "~/lib/format";
 
 type HistoryTableProps = {
@@ -29,7 +30,7 @@ export function HistoryTable({
   const rows = [...attempts].sort((a, b) => b.completedAt - a.completedAt);
 
   return (
-    <div className={`overflow-x-auto ${className}`}>
+    <ScrollArea label="Session history" className={className}>
       <table className="w-full text-left text-sm">
         <caption className="sr-only">Your sessions, newest first</caption>
         <thead>
@@ -76,6 +77,6 @@ export function HistoryTable({
           ))}
         </tbody>
       </table>
-    </div>
+    </ScrollArea>
   );
 }
