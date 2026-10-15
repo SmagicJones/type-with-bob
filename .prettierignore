@@ -1,0 +1,10 @@
+build/
+coverage/
+.react-router/
+playwright-report/
+test-results/
+package-lock.json
+
+# Hand-written briefs; left as authored.
+CLAUDE.md
+PLAN.md
