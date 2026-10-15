@@ -35,6 +35,37 @@ export default tseslint.config(
     },
   },
   {
+    // The typing engine stays pure: no DOM, no React, no clocks.
+    files: ["app/features/typing-engine/**/*.ts"],
+    rules: {
+      "no-restricted-globals": [
+        "error",
+        { name: "window", message: "The typing engine must stay pure." },
+        { name: "document", message: "The typing engine must stay pure." },
+        { name: "performance", message: "Pass timestamps in instead." },
+      ],
+      "no-restricted-properties": [
+        "error",
+        {
+          object: "Date",
+          property: "now",
+          message: "Pass timestamps in instead.",
+        },
+      ],
+      "no-restricted-syntax": [
+        "error",
+        {
+          selector: "NewExpression[callee.name='Date']",
+          message: "Pass timestamps in instead.",
+        },
+      ],
+      "no-restricted-imports": [
+        "error",
+        { patterns: ["react", "react-*", "react/*", "react-router*"] },
+      ],
+    },
+  },
+  {
     // Non-null assertions are allowed in tests only.
     files: ["**/*.test.{ts,tsx}", "e2e/**"],
     rules: {
