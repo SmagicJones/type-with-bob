@@ -43,6 +43,7 @@ app/
   routes/                   # thin route modules: wire up loaders + compose feature components
   features/
     typing-engine/          # PURE TypeScript. No React, no DOM, no timers.
+    typing-area/            # keystroke hook, text display, shared typing session
     lessons/                # lesson definitions (data) + lesson-flow components
     keyboard/               # keyboard layouts (data) + visual keyboard components
     stats/                  # WPM/accuracy/per-key stats + heatmap components
@@ -51,13 +52,14 @@ app/
     mascot/                 # Bob
   components/ui/            # generic reusable UI (Button, Card, ProgressBar...)
   lib/                      # small shared utilities
+  test-utils/               # shared test data factories
 e2e/                        # Playwright specs
 ```
 
 Rules:
 
-1. **Feature folders are self-contained.** Each exposes a public API through `index.ts`. Do not import from another feature's internals; import from its `index.ts` only.
-2. **`typing-engine` must stay pure.** No `window`, `document`, `React`, `Date.now()` or `performance.now()`. Timestamps are passed in as arguments. This keeps it deterministic and trivially testable.
+1. **Feature folders are self-contained.** Each exposes a public API through `index.ts`. Do not import from another feature's internals; import from its `index.ts` only. ESLint enforces this: importing `~/features/<name>/<anything>` is an error.
+2. **`typing-engine` must stay pure.** No `window`, `document`, `React`, `Date.now()` or `performance.now()`. Timestamps are passed in as arguments. This keeps it deterministic and trivially testable. ESLint enforces this in `typing-engine`, so a slip fails `npm run check`.
 3. **Route modules stay thin.** Business logic lives in features, not in `app/routes/`.
 4. **Keystroke capture is a hook** (`useTypingInput` or similar) that attaches a native `keydown` listener, timestamps with `performance.now()`, ignores modifier-only keys, and prevents default for keys that scroll or trigger browser shortcuts. It calls the engine; it contains no scoring logic.
 5. **The text display must not re-render the whole passage per keystroke.** Render each character as a memoised component so only the characters whose state changed update.
@@ -80,6 +82,8 @@ Rules:
 - Tailwind utilities in JSX. Extract a component, not a custom CSS class, when a pattern repeats. Keep any custom CSS to a minimum.
 - Use semantic HTML (`button`, `nav`, `main`, headings in order). Do not use `div` with click handlers.
 - Respect `prefers-reduced-motion` for all animation.
+- Wrap anything that scrolls sideways (such as a wide table) in `ScrollArea` from `components/ui`, so keyboard users can focus and scroll it.
+- Give a `<figure>` an explicit `aria-labelledby` pointing at its `<figcaption>`. Browsers name a figure from its caption, but Testing Library does not, so tests that look a figure up by name would fail without it.
 
 ## Testing rules (non-negotiable)
 
@@ -91,7 +95,7 @@ Rules:
 4. **Every user-facing route has at least one Playwright spec** covering its main journey. Core journeys that must always be covered: complete a lesson end to end, see results, see progress persisted after reload, use free practice.
 5. **Bug fixes start with a failing test** that reproduces the bug.
 6. **No flaky tests.** No arbitrary `sleep`/timeouts; use Playwright's auto-waiting and Testing Library's `findBy`/`waitFor`. Use fake timers or injected timestamps for anything time-based.
-7. **Test data is built with small factory functions** in a `test-utils` folder, not copy-pasted literals.
+7. **Test data is built with small factory functions** in a `test-utils` folder, not copy-pasted literals. Factories used by only one feature live in that feature's `test-utils/`. Factories shared across features live in `app/test-utils/`, so tests never reach into another feature's internals.
 
 ## Accessibility
 
