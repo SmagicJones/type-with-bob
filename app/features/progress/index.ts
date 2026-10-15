@@ -18,4 +18,4 @@ export type {
   ProgressStore,
   Settings,
 } from "./types";
-export { createEmptyProgress } from "./validate";
+export { createEmptyProgress, isAttempt } from "./validate";

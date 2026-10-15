@@ -12,9 +12,9 @@ export function meta(_args: Route.MetaArgs) {
 
 export default function Home() {
   return (
-    <main className="container mx-auto p-4 pt-16">
+    <div>
       <h1 className="text-3xl font-bold">Type with Bob</h1>
       <p className="mt-2">Learn to touch type, one key at a time.</p>
-    </main>
+    </div>
   );
 }
