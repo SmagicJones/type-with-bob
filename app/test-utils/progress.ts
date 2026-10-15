@@ -1,5 +1,9 @@
-import type { LessonAttempt, PracticeAttempt, ProgressData } from "../types";
-import { createEmptyProgress } from "../validate";
+import {
+  createEmptyProgress,
+  type LessonAttempt,
+  type PracticeAttempt,
+  type ProgressData,
+} from "~/features/progress";
 
 let counter = 0;
 

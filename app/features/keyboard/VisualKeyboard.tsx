@@ -2,18 +2,31 @@ import { useId } from "react";
 
 import { describeGuide, getKeyGuide } from "./guide";
 import { KeyCap, type KeyCapState } from "./KeyCap";
-import type { KeyboardLayout } from "./types";
+import type { KeyboardLayout, KeyTint } from "./types";
+
+/** Keys without a tint are greyed out while tints are shown, so finger colours don't mix in. */
+const UNTINTED: KeyTint = {
+  className:
+    "bg-gray-50 border-gray-200 text-gray-500 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-400",
+  label: "",
+};
 
 type VisualKeyboardProps = {
   layout: KeyboardLayout;
   /** The character to highlight, or null for no highlight. */
   nextChar: string | null;
+  /** Per-key overlays, keyed by key id, for example a heatmap. */
+  keyTints?: ReadonlyMap<string, KeyTint>;
+  /** Caption to show when there is no next key to describe. */
+  caption?: string;
   className?: string;
 };
 
 export function VisualKeyboard({
   layout,
   nextChar,
+  keyTints,
+  caption,
   className = "",
 }: VisualKeyboardProps) {
   const captionId = useId();
@@ -39,6 +52,9 @@ export function VisualKeyboard({
                 key={keyDef.id}
                 keyDef={keyDef}
                 state={stateFor(keyDef.id)}
+                tint={
+                  keyTints ? (keyTints.get(keyDef.id) ?? UNTINTED) : undefined
+                }
               />
             ))}
           </div>
@@ -50,7 +66,7 @@ export function VisualKeyboard({
             Next key: <strong>{describeGuide(guide)}</strong>
           </>
         ) : (
-          `${layout.name} keyboard`
+          (caption ?? `${layout.name} keyboard`)
         )}
       </figcaption>
     </figure>

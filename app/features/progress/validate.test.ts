@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   buildLessonAttempt,
   buildPracticeAttempt,
-} from "./test-utils/factories";
+} from "~/test-utils/progress";
 import { createEmptyProgress, isAttempt, parseProgressData } from "./validate";
 
 describe("parseProgressData", () => {

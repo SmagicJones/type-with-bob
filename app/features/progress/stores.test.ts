@@ -7,7 +7,7 @@ import {
   MAX_ATTEMPTS,
   STORAGE_KEY,
 } from "./stores";
-import { buildLessonAttempt } from "./test-utils/factories";
+import { buildLessonAttempt } from "~/test-utils/progress";
 import type { ProgressStore } from "./types";
 import { createEmptyProgress } from "./validate";
 

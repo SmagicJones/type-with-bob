@@ -4,6 +4,12 @@ import reactHooks from "eslint-plugin-react-hooks";
 import globals from "globals";
 import tseslint from "typescript-eslint";
 
+// Features expose a public API through index.ts; nothing may reach past it.
+const FEATURE_INTERNALS = {
+  group: ["~/features/*/*"],
+  message: "Import from the feature's index.ts instead.",
+};
+
 export default tseslint.config(
   {
     ignores: [
@@ -32,6 +38,7 @@ export default tseslint.config(
         "error",
         { "ts-expect-error": "allow-with-description", "ts-ignore": true },
       ],
+      "no-restricted-imports": ["error", { patterns: [FEATURE_INTERNALS] }],
     },
   },
   {
@@ -61,7 +68,12 @@ export default tseslint.config(
       ],
       "no-restricted-imports": [
         "error",
-        { patterns: ["react", "react-*", "react/*", "react-router*"] },
+        {
+          patterns: [
+            FEATURE_INTERNALS,
+            { group: ["react", "react-*", "react/*", "react-router*"] },
+          ],
+        },
       ],
     },
   },

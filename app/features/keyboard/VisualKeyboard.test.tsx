@@ -64,6 +64,30 @@ describe("VisualKeyboard", () => {
     expect(screen.getByText("£")).toBeInTheDocument();
   });
 
+  it("draws tints with their labels on the keys they belong to", () => {
+    const tints = new Map([
+      ["KeyF", { className: "bg-red-500", label: "40%" }],
+    ]);
+    const { container } = render(
+      <VisualKeyboard
+        layout={uk}
+        nextChar={null}
+        keyTints={tints}
+        caption="Mistakes by key"
+      />,
+    );
+
+    const key = container.querySelector('[data-key-id="KeyF"]');
+    expect(key).toHaveClass("bg-red-500");
+    expect(key).toHaveTextContent("F40%");
+    expect(container.querySelector('[data-key-id="KeyJ"]')).toHaveClass(
+      "bg-gray-50",
+    );
+    expect(
+      screen.getByRole("figure", { name: "Mistakes by key" }),
+    ).toBeInTheDocument();
+  });
+
   it("renders a different layout from data alone", () => {
     const { container } = render(<VisualKeyboard layout={us} nextChar="@" />);
 

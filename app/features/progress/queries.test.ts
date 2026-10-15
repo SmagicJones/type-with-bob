@@ -11,7 +11,7 @@ import {
   buildLessonAttempt,
   buildPracticeAttempt,
   buildProgress,
-} from "./test-utils/factories";
+} from "~/test-utils/progress";
 
 describe("progress queries", () => {
   const passedA = buildLessonAttempt({ lessonId: "a", passed: true, wpm: 10 });

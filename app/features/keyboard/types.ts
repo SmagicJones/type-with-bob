@@ -34,6 +34,12 @@ export type ControlKey = {
 
 export type KeyDef = CharKey | ControlKey;
 
+/** An overlay drawn on a key in place of its finger colour, with a short text label. */
+export type KeyTint = {
+  className: string;
+  label: string;
+};
+
 export type KeyboardLayout = {
   id: string;
   name: string;
