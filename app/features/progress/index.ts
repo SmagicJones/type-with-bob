@@ -2,6 +2,7 @@ export {
   getBestLessonAttempt,
   getCompletedLessonIds,
   getLatestLessonAttempt,
+  getLatestPracticeAttempt,
   getLessonAttempts,
 } from "./queries";
 export {
@@ -18,4 +19,4 @@ export type {
   ProgressStore,
   Settings,
 } from "./types";
-export { createEmptyProgress, isAttempt } from "./validate";
+export { createEmptyProgress } from "./validate";

@@ -10,20 +10,14 @@ import {
   getKeyStats,
   getSummary,
   isComplete,
-  type KeyStats,
-  type Summary,
 } from "~/features/typing-engine";
 
 import { LiveStats } from "./LiveStats";
+import type { SessionResult } from "./sessionResult";
 import { TypingText } from "./TypingText";
 import { useNow } from "./useNow";
 import { useTypingInput } from "./useTypingInput";
 import { useTypingSession } from "./useTypingSession";
-
-export type SessionResult = {
-  summary: Summary;
-  keyStats: KeyStats;
-};
 
 type TypingSessionProps = {
   target: string;

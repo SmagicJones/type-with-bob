@@ -4,7 +4,8 @@ import { describe, expect, it, vi } from "vitest";
 
 import { getLayout } from "~/features/keyboard";
 
-import { TypingSession, type SessionResult } from "./TypingSession";
+import type { SessionResult } from "./sessionResult";
+import { TypingSession } from "./TypingSession";
 
 const uk = getLayout("uk-qwerty");
 

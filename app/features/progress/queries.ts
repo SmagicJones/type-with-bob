@@ -1,4 +1,4 @@
-import type { LessonAttempt, ProgressData } from "./types";
+import type { LessonAttempt, PracticeAttempt, ProgressData } from "./types";
 
 export function getLessonAttempts(data: ProgressData): LessonAttempt[] {
   return data.attempts.filter((a): a is LessonAttempt => a.kind === "lesson");
@@ -32,5 +32,15 @@ export function getBestLessonAttempt(
     (best, attempt) =>
       best === null || attempt.wpm > best.wpm ? attempt : best,
     null,
+  );
+}
+
+export function getLatestPracticeAttempt(
+  data: ProgressData,
+): PracticeAttempt | null {
+  return (
+    data.attempts.findLast(
+      (a): a is PracticeAttempt => a.kind === "practice",
+    ) ?? null
   );
 }

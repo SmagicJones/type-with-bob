@@ -4,6 +4,7 @@ import {
   getBestLessonAttempt,
   getCompletedLessonIds,
   getLatestLessonAttempt,
+  getLatestPracticeAttempt,
   getLessonAttempts,
 } from "./queries";
 import {
@@ -40,6 +41,11 @@ describe("progress queries", () => {
 
   it("finds the fastest attempt for a lesson", () => {
     expect(getBestLessonAttempt(data, "a")).toEqual(laterA);
+  });
+
+  it("finds the most recent practice attempt", () => {
+    expect(getLatestPracticeAttempt(data)).toEqual(practice);
+    expect(getLatestPracticeAttempt(buildProgress())).toBeNull();
   });
 
   it("handles empty progress", () => {

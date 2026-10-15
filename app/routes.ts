@@ -5,5 +5,6 @@ export default [
   route("lessons", "routes/lessons.tsx"),
   route("lessons/:lessonId", "routes/lesson.tsx"),
   route("lessons/:lessonId/results", "routes/lesson-results.tsx"),
+  route("practice", "routes/practice.tsx"),
   route("*", "routes/not-found.tsx"),
 ] satisfies RouteConfig;

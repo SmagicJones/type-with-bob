@@ -1,5 +1,5 @@
 import { DEFAULT_LAYOUT_ID } from "~/features/keyboard";
-import type { KeyStat, KeyStats } from "~/features/typing-engine";
+import { isKeyStats } from "~/features/typing-engine";
 
 import type { Attempt, ProgressData, Settings } from "./types";
 
@@ -27,19 +27,6 @@ function isNonNegative(value: unknown): value is number {
 
 function isNonEmptyString(value: unknown): value is string {
   return typeof value === "string" && value !== "";
-}
-
-function isKeyStat(value: unknown): value is KeyStat {
-  return (
-    isRecord(value) &&
-    isNonNegative(value.attempts) &&
-    isNonNegative(value.errors) &&
-    (value.avgLatencyMs === null || isNonNegative(value.avgLatencyMs))
-  );
-}
-
-function isKeyStats(value: unknown): value is KeyStats {
-  return isRecord(value) && Object.values(value).every(isKeyStat);
 }
 
 export function isAttempt(value: unknown): value is Attempt {
